@@ -15,7 +15,7 @@ import com.cloudtroopers.jpa.entity.ProjectStatus;
 
 /**
  * 
- * @author Radu Cosma <radu.cosma@cloudtroopers.com> 
+ * @author Radu Cosma <radu.cosma@cloudtroopers.com>
  *
  */
 public class JPA {
@@ -32,9 +32,15 @@ public class JPA {
 
         JPA jpa = new JPA();
 
+        // CriteriaBuilder criteriaBuilder = jpa.getEntityManager().getCriteriaBuilder();
+        // CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+        // Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
+        // TypedQuery<Employee> query = jpa.getEntityManager().createQuery(criteriaQuery);
+        // query.getResultList();
+
         Department department = new Department();
         department.setName("Java Department");
-        
+
         Project project = new Project();
         project.setName("Java Project");
         project.setStatus(ProjectStatus.IN_PROGRESS);
@@ -44,21 +50,20 @@ public class JPA {
         technologies.add("MySQL");
         project.setTechnologies(technologies);
         project.setDepartment(department);
-        
+
         Employee employee = new Employee();
         employee.setFirstName("Radu");
         employee.setLastName("Cosma");
         employee.setDepartment(department);
         List<Employee> employees = new ArrayList<Employee>();
         employees.add(employee);
-        
+
         jpa.getEntityManager().getTransaction().begin();
         jpa.getEntityManager().persist(employee);
         project.setEmployees(employees);
         jpa.getEntityManager().persist(department);
         jpa.getEntityManager().persist(project);
         jpa.getEntityManager().getTransaction().commit();
-       
 
         TypedQuery<Project> query = jpa.getEntityManager().createNamedQuery(Project.FIND_ALL, Project.class);
         List<Project> projects = query.getResultList();
