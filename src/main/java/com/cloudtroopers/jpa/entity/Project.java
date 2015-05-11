@@ -36,7 +36,7 @@ public class Project {
 
     @Id
     @ManyToOne
-    @MapsId("departmentId")
+    // @MapsId("departmentId")
     private Department department;
 
     @ManyToMany
@@ -46,6 +46,8 @@ public class Project {
 
     @ElementCollection
     @CollectionTable(name = "TECHNOLOGY")
+    // @CollectionTable(name = "TECHNOLOGY", joinColumns = { @JoinColumn(name = "project_department_id"),
+    // @JoinColumn(name = "project_name") })
     private List<String> technologies;
 
     @Enumerated(EnumType.STRING)

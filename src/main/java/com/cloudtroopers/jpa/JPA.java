@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import com.cloudtroopers.jpa.entity.Address;
 import com.cloudtroopers.jpa.entity.Department;
 import com.cloudtroopers.jpa.entity.Employee;
 import com.cloudtroopers.jpa.entity.Project;
@@ -55,6 +56,10 @@ public class JPA {
         employee.setFirstName("Radu");
         employee.setLastName("Cosma");
         employee.setDepartment(department);
+        List<Address> addresses = new ArrayList<Address>();
+        addresses .add(new Address("Eroilor", "Cluj-Napoca"));
+        addresses.add(new Address("M. Piuariu", "Cluj-Napoca"));
+        employee.setAddresses(addresses);
         List<Employee> employees = new ArrayList<Employee>();
         employees.add(employee);
 
