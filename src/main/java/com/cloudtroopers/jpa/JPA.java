@@ -13,6 +13,9 @@ import com.cloudtroopers.jpa.entity.Department;
 import com.cloudtroopers.jpa.entity.Employee;
 import com.cloudtroopers.jpa.entity.Project;
 import com.cloudtroopers.jpa.entity.ProjectStatus;
+import com.cloudtroopers.jpa.entity.inheritance.Bike;
+import com.cloudtroopers.jpa.entity.inheritance.Car;
+import com.cloudtroopers.jpa.entity.inheritance.Truck;
 
 /**
  * 
@@ -31,8 +34,12 @@ public class JPA {
 
     public static void main(String[] args) {
 
-        JPA jpa = new JPA();
+        // new JPA().doTheProjects();
+        new JPA().doTheInheritance();
 
+    }
+
+    public void doTheProjects() {
         // CriteriaBuilder criteriaBuilder = jpa.getEntityManager().getCriteriaBuilder();
         // CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
         // Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
@@ -57,28 +64,50 @@ public class JPA {
         employee.setLastName("Cosma");
         employee.setDepartment(department);
         List<Address> addresses = new ArrayList<Address>();
-        addresses .add(new Address("Eroilor", "Cluj-Napoca"));
+        addresses.add(new Address("Eroilor", "Cluj-Napoca"));
         addresses.add(new Address("M. Piuariu", "Cluj-Napoca"));
         employee.setAddresses(addresses);
         List<Employee> employees = new ArrayList<Employee>();
         employees.add(employee);
 
-        jpa.getEntityManager().getTransaction().begin();
-        jpa.getEntityManager().persist(employee);
+        getEntityManager().getTransaction().begin();
+        getEntityManager().persist(employee);
         project.setEmployees(employees);
-        jpa.getEntityManager().persist(department);
-        jpa.getEntityManager().persist(project);
-        jpa.getEntityManager().getTransaction().commit();
+        getEntityManager().persist(department);
+        getEntityManager().persist(project);
+        getEntityManager().getTransaction().commit();
 
-        TypedQuery<Project> query = jpa.getEntityManager().createNamedQuery(Project.FIND_ALL, Project.class);
+        TypedQuery<Project> query = getEntityManager().createNamedQuery(Project.FIND_ALL, Project.class);
         List<Project> projects = query.getResultList();
         for (Project p : projects) {
             System.out.println(p);
         }
 
-        jpa.getEntityManager().close();
-        jpa.getEntityManagerFactory().close();
+        getEntityManager().close();
+        getEntityManagerFactory().close();
+    }
 
+    public void doTheInheritance() {
+        Bike cbr1000rr = new Bike();
+        cbr1000rr.setManufacturer("honda");
+        cbr1000rr.setNoOfpassengers(1);
+        cbr1000rr.setSaddleHeight(30);
+        getEntityManager().persist(cbr1000rr);
+
+        Car aventador = new Car();
+        aventador.setManufacturer("lamborghini");
+        aventador.setNoOfDoors(2);
+        aventador.setNoOfpassengers(2);
+        getEntityManager().persist(aventador);
+
+        Truck truck = new Truck();
+        truck.setLoadCapacity(1000);
+        truck.setManufacturer("volvo");
+        truck.setNoOfContainers(2);
+        getEntityManager().persist(truck);
+
+        getEntityManager().close();
+        getEntityManagerFactory().close();
     }
 
     public EntityManagerFactory getEntityManagerFactory() {
